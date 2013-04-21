@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/download.png</file>
+        <file>img/download_cancel.png</file>
+        <file>img/icon.ico</file>
+        <file>img/icon.png</file>
+        <file>img/settings.png</file>
+    </qresource>
+</RCC>

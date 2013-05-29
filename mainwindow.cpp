@@ -2,8 +2,9 @@
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
+#include <QFileDialog>
 #include <QDebug>
-
+#include <QKeyEvent>
 #include "dialogconfig.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -22,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(wsSocket, SIGNAL(disconnected()), this, SLOT(socketDisconnected()));
     connect(wsSocket, SIGNAL(frameReceived(QString)), this, SLOT(messageRecieved(QString)));
     connect(wsSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+
+    connectSocket();
 }
 
 MainWindow::~MainWindow()
@@ -35,17 +38,35 @@ void MainWindow::on_actionConfig_triggered()
     dialog.exec();
 }
 
+
+void MainWindow::on_actionCapture_triggered()
+{
+    if (!prevImage.isNull()) {
+        QImage image = prevImage.copy();
+        QString fileName = QFileDialog::getSaveFileName(this, "画像のファイル名を指定してください", "", "png file (*.png)");
+        image.save(fileName);
+    }
+}
+
+void MainWindow::on_actionFull_triggered()
+{
+    ui->mainToolBar->setVisible(false);
+    ui->statusBar->setVisible(false);
+    ui->centralWidget->layout()->setMargin(0);
+    this->showFullScreen();
+}
+
 void MainWindow::connectSocket()
 {
     QString address = settings->value("address").toString();
     if (address.isEmpty()) {
-        QMessageBox::critical(this, NULL, "You must set the address!");
+        QMessageBox::critical(this, NULL, "設定画面からアドレスを設定してください!");
         return;
     }
 
     QString port = settings->value("port").toString();
     if (port.isEmpty()) {
-        QMessageBox::critical(this, NULL, "You must set the port!");
+        QMessageBox::critical(this, NULL, "設定画面からポート番号を設定してください!");
         return;
     }
 
@@ -75,6 +96,7 @@ void MainWindow::messageRecieved(const QString &message)
     if (image.isNull()) {
          return;
     }
+    prevImage = image.copy();
 
     QPixmap pixmap = QPixmap::fromImage(image.scaled(ui->graphicsView->frameSize()));
     graphicsScene->clear();
@@ -110,5 +132,15 @@ void MainWindow::socketStateChanged(const QAbstractSocket::SocketState &socketSt
         default:
             // unknown
             break;
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (this->isFullScreen() && event->key() == Qt::Key_Escape) {
+        ui->mainToolBar->setVisible(true);
+        ui->statusBar->setVisible(true);
+        ui->centralWidget->layout()->setMargin(12);
+        this->showNormal();
     }
 }

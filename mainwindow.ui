@@ -43,6 +43,8 @@
    </attribute>
    <addaction name="actionConnect"/>
    <addaction name="actionDisconnect"/>
+   <addaction name="actionCapture"/>
+   <addaction name="actionFull"/>
    <addaction name="actionConfig"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -83,6 +85,24 @@
    </property>
    <property name="toolTip">
     <string>Disconnect</string>
+   </property>
+  </action>
+  <action name="actionCapture">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/camera.png</normaloff>:/img/camera.png</iconset>
+   </property>
+   <property name="text">
+    <string>capture</string>
+   </property>
+  </action>
+  <action name="actionFull">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/img/fullscreen.png</normaloff>:/img/fullscreen.png</iconset>
+   </property>
+   <property name="text">
+    <string>full</string>
    </property>
   </action>
  </widget>

@@ -21,6 +21,8 @@ public:
     
 private slots:
     void on_actionConfig_triggered();
+    void on_actionCapture_triggered();
+    void on_actionFull_triggered();
     void connectSocket();
     void disconnectSocket();
     void socketConnected();
@@ -28,11 +30,14 @@ private slots:
     void messageRecieved(const QString &message);
     void socketStateChanged(const QAbstractSocket::SocketState &socketState);
 
+    void keyPressEvent(QKeyEvent *event);
+
 private:
     Ui::MainWindow *ui;
     QSettings *settings;
     QWsSocket *wsSocket;
     QGraphicsScene *graphicsScene;
+    QImage prevImage;
 };
 
 #endif // MAINWINDOW_H

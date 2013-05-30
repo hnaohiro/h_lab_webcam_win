@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = h_lab_webcam
 TEMPLATE = app
 
+CONFIG += static
+
 RC_FILE = h_lab_webcam.rc
 
 SOURCES += main.cpp\

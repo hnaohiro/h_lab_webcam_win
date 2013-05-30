@@ -43,7 +43,7 @@ void MainWindow::on_actionCapture_triggered()
 {
     if (!prevImage.isNull()) {
         QImage image = prevImage.copy();
-        QString fileName = QFileDialog::getSaveFileName(this, "画像のファイル名を指定してください", "", "png file (*.png)");
+        QString fileName = QFileDialog::getSaveFileName(this, "Save image", "", "png file (*.png)");
         image.save(fileName);
     }
 }
@@ -60,13 +60,13 @@ void MainWindow::connectSocket()
 {
     QString address = settings->value("address").toString();
     if (address.isEmpty()) {
-        QMessageBox::critical(this, NULL, "設定画面からアドレスを設定してください!");
+        ui->statusBar->showMessage("Please set address!");
         return;
     }
 
     QString port = settings->value("port").toString();
     if (port.isEmpty()) {
-        QMessageBox::critical(this, NULL, "設定画面からポート番号を設定してください!");
+        ui->statusBar->showMessage("Please set the port number!");
         return;
     }
 
@@ -98,7 +98,9 @@ void MainWindow::messageRecieved(const QString &message)
     }
     prevImage = image.copy();
 
-    QPixmap pixmap = QPixmap::fromImage(image.scaled(ui->graphicsView->frameSize()));
+    QSize size = ui->graphicsView->frameSize();
+    QPixmap pixmap = QPixmap::fromImage(image.scaled(size.width()-2, size.height()-2));
+
     graphicsScene->clear();
     graphicsScene->addPixmap(pixmap);
     ui->graphicsView->setScene(graphicsScene);

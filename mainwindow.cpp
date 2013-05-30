@@ -5,6 +5,8 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QSplashScreen>
+
 #include "dialogconfig.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -13,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     settings = new QSettings("setting.ini", QSettings::IniFormat, this);
-    graphicsScene = new QGraphicsScene(this);
+    graphicsScene = new QGraphicsScene;
 
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(connectSocket()));
     connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(disconnectSocket()));
@@ -101,8 +103,10 @@ void MainWindow::messageRecieved(const QString &message)
     QSize size = ui->graphicsView->frameSize();
     QPixmap pixmap = QPixmap::fromImage(image.scaled(size.width()-2, size.height()-2));
 
-    graphicsScene->clear();
+    delete graphicsScene;
+    graphicsScene = new QGraphicsScene;
     graphicsScene->addPixmap(pixmap);
+
     ui->graphicsView->setScene(graphicsScene);
 }
 

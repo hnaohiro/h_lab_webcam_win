@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QDesktopWidget>
 
 #include "dialogconfig.h"
 #include "popup.h"
@@ -55,6 +56,10 @@ void MainWindow::on_actionFull_triggered()
     ui->mainToolBar->setVisible(false);
     ui->statusBar->setVisible(false);
     ui->centralWidget->layout()->setMargin(0);
+
+    int current = QApplication::desktop()->screenNumber(this);
+    QRect screenres = QApplication::desktop()->screenGeometry(current);
+    this->move(QPoint(screenres.x(), screenres.y()));
     this->showFullScreen();
 
     Popup *popup = new Popup();

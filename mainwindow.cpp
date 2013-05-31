@@ -5,9 +5,9 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QKeyEvent>
-#include <QSplashScreen>
 
 #include "dialogconfig.h"
+#include "popup.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,6 +56,9 @@ void MainWindow::on_actionFull_triggered()
     ui->statusBar->setVisible(false);
     ui->centralWidget->layout()->setMargin(0);
     this->showFullScreen();
+
+    Popup *popup = new Popup();
+    popup->show();
 }
 
 void MainWindow::connectSocket()

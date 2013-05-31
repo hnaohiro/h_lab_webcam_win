@@ -19,15 +19,18 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     QWsSocket.cpp \
     QWsServer.cpp \
-    dialogconfig.cpp
+    dialogconfig.cpp \
+    popup.cpp
 
 HEADERS  += mainwindow.h \
     QWsSocket.h \
     QWsServer.h \
-    dialogconfig.h
+    dialogconfig.h \
+    popup.h
 
 FORMS    += mainwindow.ui \
-    dialogconfig.ui
+    dialogconfig.ui \
+    popup.ui
 
 RESOURCES += \
     resources.qrc

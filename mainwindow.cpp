@@ -59,8 +59,8 @@ void MainWindow::on_actionFull_triggered()
 
     int current = QApplication::desktop()->screenNumber(this);
     QRect screenres = QApplication::desktop()->screenGeometry(current);
-    this->move(QPoint(screenres.x(), screenres.y()));
     this->showFullScreen();
+    this->move(QPoint(screenres.x(), screenres.y()));
 
     Popup *popup = new Popup();
     popup->show();
